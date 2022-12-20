@@ -1,6 +1,7 @@
 import base64
 
 
+# registers a new user
 def test_register(client, request):
     response = client.post(
         "/auth/register",
@@ -16,6 +17,7 @@ def test_register(client, request):
     request.config.cache.set("cred", valid_credentials)
 
 
+# creates a new task list and checks response payload whether newly created task list's id is retrieved or not
 def test_create_task_list(client, request):
     response = client.post(
         "/task-lists/",
@@ -27,6 +29,7 @@ def test_create_task_list(client, request):
     request.config.cache.set("task_list_id", response.json["data"]["id"])
 
 
+# fetches all tasks lists of the user and checks the response whether the new task list is retrieved or not
 def test_get_task_list(client, request):
     response = client.get(
         "/task-lists/",
@@ -37,6 +40,7 @@ def test_get_task_list(client, request):
     assert len(response.json["data"]) > 0
 
 
+# updates the existing task list and checks response payload whether title is updated or not
 def test_update_task_list(client, request):
     updated_task_title = "test-task-list-2"
     response = client.put(
@@ -49,6 +53,7 @@ def test_update_task_list(client, request):
     assert updated_task_title == response.json["data"]["title"]
 
 
+# creates a new task for the task list that is created above
 def test_create_task(client, request):
     response = client.post(
         f"/task-lists/{request.config.cache.get('task_list_id', None)}/tasks",
@@ -60,6 +65,7 @@ def test_create_task(client, request):
     request.config.cache.set("task_id", response.json["data"]["id"])
 
 
+# fetches tasks of the task list and checks payload to see if the new task is retrieved
 def test_get_task(client, request):
     response = client.get(
         f"/task-lists/{request.config.cache.get('task_list_id', None)}/tasks",
@@ -70,6 +76,7 @@ def test_get_task(client, request):
     assert len(response.json["data"]) > 0
 
 
+# updates the existing task and checks response payload whether description and status are updated or not
 def test_update_task(client, request):
     updated_task_title = "test-task-2"
     response = client.put(
@@ -83,6 +90,7 @@ def test_update_task(client, request):
     assert response.json["data"]["finished_at"] is not None
 
 
+# deletes the task
 def test_delete_task(client, request):
     response = client.delete(
         f"/task-lists/{request.config.cache.get('task_list_id', None)}/tasks/{request.config.cache.get('task_id', None)}",
@@ -92,6 +100,7 @@ def test_delete_task(client, request):
     assert 204 == response.status_code
 
 
+# deletes the task list
 def test_delete_task_list(client, request):
     response = client.delete(
         f"/task-lists/{request.config.cache.get('task_list_id', None)}",

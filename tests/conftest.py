@@ -2,13 +2,14 @@ import pytest
 
 from src import create_app, db
 
-
+# caches username and password for basic authentication
 @pytest.fixture(scope='session', autouse=True)
 def init_cache(request):
     request.config.cache.set('username', "testuser")
     request.config.cache.set('password', "123123")
 
 
+# performs initialization and teardown steps for the test on test db
 @pytest.fixture(scope='session')
 def app(request):
     app = create_app("testing")
