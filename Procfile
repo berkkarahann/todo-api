@@ -1,1 +1,1 @@
-web: flask db init && flask db migrate && flask db upgrade && heroku local:run gunicorn manage:app
+web: sh -c 'flask db init && flask db migrate && flask db upgrade && heroku local:run gunicorn manage:app'
