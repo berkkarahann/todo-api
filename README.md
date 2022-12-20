@@ -68,6 +68,9 @@ gunicorn manage:app
 
 You can explore available endpoints in /docs endpoint via Swagger 
 
+NOTE: Make sure you set the scheme as 'https' if you deploy the api to Heroku for Swagger tests
+
+
 ## Testing
 
 You can perform todolist end-to-end test with following command
