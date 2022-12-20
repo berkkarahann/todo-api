@@ -1,0 +1,5 @@
+{
+	"name": "Heroku and Flask Todo app",
+	"repository": "https://github.com/berkkarahann/todo-api",
+	"keywords": ["flask", "python"]
+}
