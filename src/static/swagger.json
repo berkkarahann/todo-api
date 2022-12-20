@@ -1,0 +1,592 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "TodoList API"
+  },
+  "host": "localhost:8080",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Access to TodoList API"
+    },
+    {
+      "name": "task-list",
+      "description": "Operations about task lists"
+    }
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }},
+  "security": [
+    {"basicAuth": []}
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "Login to the TodoList API",
+        "operationId": "login",
+        "tags": ["auth"],
+        "security": [],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "login response"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+
+    },
+    "/auth/register": {
+      "post": {
+        "description": "Register to the TodoList API",
+        "operationId": "register",
+        "tags": ["auth"],
+        "security": [],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "login response"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+
+    },
+
+    "/task-lists/": {
+      "get": {
+        "description": "Returns all task lists of the user",
+        "operationId": "getTaskLists",
+        "tags": ["task-list"],
+        "responses": {
+          "200": {
+            "description": "task lists response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaskList"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new task list",
+        "operationId": "addTaskList",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "taskList",
+            "in": "body",
+            "description": "Add new task list",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewTaskList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "taskList response",
+            "schema": {
+              "$ref": "#/definitions/TaskList"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/task-lists/{id}": {
+      "put": {
+        "description": "Updates a task list based on a task list id supplied",
+        "operationId": "updateTaskListById",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task list to update",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "taskList",
+            "in": "body",
+            "description": "task list fields that will be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewTaskList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "task list response",
+            "schema": {
+              "$ref": "#/definitions/TaskList"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "deletes a task list based on the ID supplied",
+        "operationId": "deleteTaskList",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task list to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Task list is deleted successfully"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/task-lists/{id}/tasks": {
+      "get": {
+        "description": "Returns all task lists of the task list",
+        "operationId": "getTasks",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task list",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "task response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new task in the list",
+        "operationId": "addTask",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task list",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "task",
+            "in": "body",
+            "description": "New task",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewTask"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "task response",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/task-lists/{task_list_id}/tasks/{task_id}": {
+      "put": {
+        "description": "Updates a task based on the ID supplied",
+        "operationId": "updateTasks",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "task_list_id",
+            "in": "path",
+            "description": "ID of task list",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "ID of task to update",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "task",
+            "in": "body",
+            "description": "task fields that will be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTaskSingle"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "task response",
+            "schema": {
+              "$ref": "#/definitions/UpdateTask"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "deletes a task based on the ID supplied",
+        "operationId": "deleteTask",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "task_list_id",
+            "in": "path",
+            "description": "ID of task list",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "ID of task to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "pet deleted"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+
+    "/task-lists/{task_list_id}/tasks/bulk": {
+      "put": {
+        "description": "Updates tasks",
+        "operationId": "updateTasks",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "task_list_id",
+            "in": "path",
+            "description": "ID of task list",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "task",
+            "in": "body",
+            "description": "task fields that will be updated",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UpdateTask"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "tasks response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UpdateTask"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "deletes tasks with specified id array",
+        "operationId": "deleteTasks",
+        "tags": ["task-list"],
+        "parameters": [
+          {
+            "name": "task_list_id",
+            "in": "path",
+            "description": "ID of task list",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "task",
+            "in": "body",
+            "description": "Array of task ids",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteTasks"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Tasks are deleted successfully"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "username",
+            "password"
+          ],
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "TaskList": {
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
+    "NewTaskList": {
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "finished_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "is_finished": {
+          "type": "boolean"
+        }
+      }
+    },
+    "NewTask": {
+      "type": "object",
+      "required": [
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateTaskSingle": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "is_finished": {
+          "type": "boolean"
+        }
+      }
+    },
+    "UpdateTask": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "is_finished": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DeleteTasks": {
+      "type": "object",
+      "properties": {
+        "task_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
