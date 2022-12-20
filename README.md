@@ -63,3 +63,14 @@ You can launch the todo-api by running gunicorn as follows
 ```bash
 gunicorn manage:app
 ```
+
+## Document
+
+You can explore available endpoints in /docs endpoint via Swagger 
+
+## Testing
+
+You can perform todolist end-to-end test with following command
+```bash
+pytest
+```
