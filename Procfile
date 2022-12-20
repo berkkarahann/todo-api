@@ -1,1 +1,1 @@
-web: sh -c 'export FLASK_APP=manage.py && flask db init && flask db migrate && flask db upgrade && heroku local:run gunicorn manage:app'
+web: sh -c 'export FLASK_APP=manage.py && flask db init && flask db migrate && flask db upgrade && gunicorn manage:app'
