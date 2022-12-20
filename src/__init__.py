@@ -28,7 +28,7 @@ def create_app(config_name):
     app.register_blueprint(ab, url_prefix="/auth")
     app.register_blueprint(tlb, url_prefix="/task-lists")
 
-    SWAGGER_URL = '/docs'
+    SWAGGER_URL = '/'
     API_URL = '/static/swagger.json'
     SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
         SWAGGER_URL,
